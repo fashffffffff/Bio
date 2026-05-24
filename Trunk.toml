@@ -1,0 +1,17 @@
+[build]
+target = "index.html"
+dist = "dist"
+public_url = "/"
+
+[watch]
+# manifest.json is rewritten every pre_build — ignore or Trunk rebuilds forever
+ignore = ["dist", "media/manifest.json"]
+
+# Dev: avoid Brave/Chrome serving stale wasm between rebuilds
+[serve]
+headers = { "Cache-Control" = "no-store, must-revalidate", "Pragma" = "no-cache" }
+
+[[hooks]]
+stage = "pre_build"
+command = "bash"
+command_arguments = ["scripts/generate-media-manifest.sh"]
